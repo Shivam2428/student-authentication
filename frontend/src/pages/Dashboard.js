@@ -7,30 +7,30 @@ export default function Dashboard() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    // ❌ token nahi hai → login page bhej
+    console.log("TOKEN:", token);
+
     if (!token) {
       window.location.href = "/";
       return;
     }
 
-    // ✅ backend se user data la
-    axios.get(
-      "https://student-authentication-0rn2.onrender.com/api/profile",
-      {
+    axios
+      .get("https://student-authentication-0rn2.onrender.com/api/profile", {
         headers: {
           Authorization: token,
         },
-      }
-    )
-    .then(res => {
-      setUser(res.data);
-    })
-    .catch(err => {
-      console.log(err);
-      localStorage.removeItem("token");
-      window.location.href = "/";
-    });
+      })
+      .then((res) => {
+        console.log("USER:", res.data);
+        setUser(res.data);
+      })
+      .catch((err) => {
+        console.log("ERROR:", err.response?.data || err);
 
+        alert("Session expired, login again");
+        localStorage.removeItem("token");
+        window.location.href = "/";
+      });
   }, []);
 
   return (
@@ -47,10 +47,12 @@ export default function Dashboard() {
         <p>Loading...</p>
       )}
 
-      <button onClick={() => {
-        localStorage.removeItem("token");
-        window.location.href = "/";
-      }}>
+      <button
+        onClick={() => {
+          localStorage.removeItem("token");
+          window.location.href = "/";
+        }}
+      >
         Logout
       </button>
     </div>

@@ -12,11 +12,16 @@ export default function Login() {
         { email, password }
       );
 
+      // ✅ token save
       localStorage.setItem("token", res.data.token);
 
       alert("Login successful");
+
+      // ✅ redirect
       window.location.href = "/dashboard";
+
     } catch (err) {
+      console.log(err);
       alert(err.response?.data?.msg || "Login failed");
     }
   };
@@ -25,8 +30,16 @@ export default function Login() {
     <div>
       <h2>Login</h2>
 
-      <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+      <input
+        placeholder="Email"
+        onChange={(e) => setEmail(e.target.value)}
+      />
+
+      <input
+        type="password"
+        placeholder="Password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
 
       <button onClick={handleLogin}>Login</button>
 
