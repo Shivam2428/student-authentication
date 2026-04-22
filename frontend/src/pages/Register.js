@@ -10,10 +10,14 @@ export default function Register() {
     try {
       const res = await axios.post(
         "https://student-authentication-0rn2.onrender.com/api/auth/register",
-        { name, email, password }
+        {
+          name,
+          email,
+          password
+        }
       );
 
-      alert("Registration successful");
+      alert("Registered successfully");
       console.log(res.data);
     } catch (err) {
       console.log(err);
@@ -24,21 +28,25 @@ export default function Register() {
   return (
     <div>
       <h2>Register</h2>
+
       <input
         type="text"
         placeholder="Name"
         onChange={(e) => setName(e.target.value)}
       />
+
       <input
         type="email"
         placeholder="Email"
         onChange={(e) => setEmail(e.target.value)}
       />
+
       <input
         type="password"
         placeholder="Password"
         onChange={(e) => setPassword(e.target.value)}
       />
+
       <button onClick={handleRegister}>Register</button>
     </div>
   );
