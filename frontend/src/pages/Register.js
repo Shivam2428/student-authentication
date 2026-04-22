@@ -9,15 +9,14 @@ export default function Register() {
 
   const handleRegister = async () => {
     try {
-      const res = await axios.post(
-        "https://student-authentication-0rn2.onrender.com/api/auth/register",
+      await axios.post(
+        "https://student-authentication-0rn2.onrender.com/api/register",
         { name, email, password, course }
       );
 
       alert("Registration successful");
-      console.log(res.data);
     } catch (err) {
-      console.log(err.response?.data || err);
+      console.log(err);
       alert("Registration failed");
     }
   };
@@ -26,29 +25,10 @@ export default function Register() {
     <div>
       <h2>Register</h2>
 
-      <input
-        type="text"
-        placeholder="Name"
-        onChange={(e) => setName(e.target.value)}
-      />
-
-      <input
-        type="email"
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-
-      <input
-        type="text"
-        placeholder="Course"
-        onChange={(e) => setCourse(e.target.value)}
-      />
+      <input placeholder="Name" onChange={(e) => setName(e.target.value)} />
+      <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+      <input placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+      <input placeholder="Course" onChange={(e) => setCourse(e.target.value)} />
 
       <button onClick={handleRegister}>Register</button>
     </div>
