@@ -1,29 +1,21 @@
-import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-function Login() {
-  const [form, setForm] = useState({ email: "", password: "" });
-  const navigate = useNavigate();
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleLogin = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/login",
-        form
+        "https://student-authentication-0rn2.onrender.com/api/auth/login",
+        { email, password }
       );
 
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-
-      navigate("/dashboard");
+      alert("Login successful");
+      console.log(res.data);
     } catch (err) {
+      console.log(err);
       alert("Login failed");
     }
   };
@@ -31,24 +23,17 @@ function Login() {
   return (
     <div>
       <h2>Login</h2>
-
-      <form onSubmit={handleSubmit}>
-        <input name="email" placeholder="Email" onChange={handleChange} />
-        <input name="password" placeholder="Password" onChange={handleChange} />
-        <button>Login</button>
-      </form>
-
-      <p>
-        Don't have an account?{" "}
-        <span
-          onClick={() => navigate("/register")}
-          style={{ color: "blue", cursor: "pointer" }}
-        >
-          Register
-        </span>
-      </p>
+      <input
+        type="email"
+        placeholder="Email"
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button onClick={handleLogin}>Login</button>
     </div>
   );
 }
-
-export default Login;

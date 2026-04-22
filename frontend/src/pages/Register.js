@@ -1,29 +1,22 @@
-import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-function Register() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    course: ""
-  });
+export default function Register() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleRegister = async () => {
     try {
-      await axios.post("http://localhost:5000/api/register", form);
-      alert("Registered Successfully");
-      navigate("/");
+      const res = await axios.post(
+        "https://student-authentication-0rn2.onrender.com/api/auth/register",
+        { name, email, password }
+      );
+
+      alert("Registration successful");
+      console.log(res.data);
     } catch (err) {
+      console.log(err);
       alert("Registration failed");
     }
   };
@@ -31,26 +24,22 @@ function Register() {
   return (
     <div>
       <h2>Register</h2>
-
-      <form onSubmit={handleSubmit}>
-        <input name="name" placeholder="Name" onChange={handleChange} />
-        <input name="email" placeholder="Email" onChange={handleChange} />
-        <input name="password" placeholder="Password" onChange={handleChange} />
-        <input name="course" placeholder="Course" onChange={handleChange} />
-        <button>Register</button>
-      </form>
-
-      <p>
-        Already have an account?{" "}
-        <span
-          onClick={() => navigate("/")}
-          style={{ color: "blue", cursor: "pointer" }}
-        >
-          Login
-        </span>
-      </p>
+      <input
+        type="text"
+        placeholder="Name"
+        onChange={(e) => setName(e.target.value)}
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button onClick={handleRegister}>Register</button>
     </div>
   );
 }
-
-export default Register;
