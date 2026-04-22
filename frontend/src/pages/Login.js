@@ -8,15 +8,16 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        "https://student-authentication-0rn2.onrender.com/api/auth/login",
+        "https://student-authentication-0rn2.onrender.com/api/login",
         { email, password }
       );
 
+      localStorage.setItem("token", res.data.token);
+
       alert("Login successful");
-      console.log(res.data);
+      window.location.href = "/dashboard";
     } catch (err) {
-      console.log(err);
-      alert("Login failed");
+      alert(err.response?.data?.msg || "Login failed");
     }
   };
 
@@ -24,19 +25,14 @@ export default function Login() {
     <div>
       <h2>Login</h2>
 
-      <input
-        type="email"
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
+      <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+      <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
 
       <button onClick={handleLogin}>Login</button>
+
+      <p>
+        No account? <a href="/register">Register</a>
+      </p>
     </div>
   );
 }
